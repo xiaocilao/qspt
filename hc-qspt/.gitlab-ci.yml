@@ -1,0 +1,36 @@
+stages:
+  - maven_package
+  - build_images
+  - deploy_project
+before_script:
+  - version=`cat .git/logs/HEAD | tail -n 1| awk '{print \$2}'`
+maven_package:
+  stage: maven_package
+  script: mvn package -Dmaven.test.skip=true
+  artifacts:
+    name: "package"
+    expire_in: 1 day
+    paths:
+      - $CI_PROJECT_DIR/target/zxkj-hc-qspt-2.1.0-SNAPSHOT.jar
+  only:
+    - master
+build_images:
+  stage: build_images
+  dependencies:
+    - maven_package
+  script:
+    - docker build -t ${docker_registry}/deploy/zxkj-hc-qspt:${version:0:8} .
+    - docker push ${docker_registry}/deploy/zxkj-hc-qspt:${version:0:8}
+  only:
+    - master
+deploy_prod:
+  stage: deploy_project
+  dependencies:
+    - maven_package
+    - build_images
+  only:
+    - master
+  script:
+    - export image=${docker_registry}/deploy/zxkj-hc-qspt:${version:0:8}
+    - sed -i "s#docker_image#$image#g" zxkj-hc-qspt.yaml
+    - kubectl apply -f zxkj-hc-qspt.yaml

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="varchar" javaType="String" />
+    <Field column="wechat_id" property="wechatId" jdbcType="varchar" javaType="String" />
+    <Field column="user_name" property="userName" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrsj" property="xtLrsj" jdbcType="date" javaType="Date" />
+    <Field column="xt_lrrxm" property="xtLrrxm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrrid" property="xtLrrid" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrip" property="xtLrip" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgsj" property="xtZhxgsj" jdbcType="date" javaType="Date" />
+    <Field column="xt_zhxgrxm" property="xtZhxgrxm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgrid" property="xtZhxgrid" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgip" property="xtZhxgip" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zxbz" property="xtZxbz" jdbcType="tinyint" javaType="Integer" />
+    <Field column="xt_zxyy" property="xtZxyy" jdbcType="varchar" javaType="String" />
+    <Field column="login_time" property="loginTime" jdbcType="date" javaType="Date" />
+    <Field column="wechat_unionid" property="wechatUnionid" jdbcType="varchar" javaType="String" />
+    <Field column="phone_number" property="phoneNumber" jdbcType="varchar" javaType="String" />
+  </Entity>
+</Describe>
+

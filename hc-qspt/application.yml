@@ -1,0 +1,67 @@
+server:
+  port: 81
+
+web:
+  url: http://localhost:8080
+
+fileUpload:
+  smallPictureMaxSize: 201400
+
+baiduyun:
+  ocr:
+    clientId: UA1EFy4QMnqk7EliZyYHP1UG
+    clientSecret: ZGrw8SqNvakOGjL9o76CB5ALKSRV2dkE
+
+aliyun:
+  duanxin:
+    accessKeyId: LTAIQC66U4IVwrPY
+    accessKeySecret: A6PvKt7kipVbJuPk0eTVYVHPbqVwMs
+    signName: 燊税通
+    templateCode: SMS_152286192slb
+
+wxxcx:
+  appid: wxd7b12a883d8d5364
+  secret: 924df9ee8f31100de878fd3b19aa208d
+
+wxgzh:
+  appid: wx76f40682b2212159
+  secret: 49ff1316b27df3b8db150617d6b6b00e
+  token: taxweixingongzhtoken
+  encodingAESKey: 6Rkeu54McOj1BLsbE0ovl0pi9pAayvsexOyBVZNgkh0
+
+shanghuhao:
+  partner: cdhsdhs
+  subpartner: 12323
+  orderId: 123455678765
+  returnsyncurl: 172.32.6.53/order/apply/return
+  returnurl: 172.32.6.53/index
+  tradeMode: 22222
+
+taxReq:
+  prcscd: prcscd
+  brh_no: brh_no
+  opr_no: opr_no
+  abst_cd: abst_cd
+  mid_item: mid_item
+  mid_pay_type: mid_pay_type
+  jyje: jyje
+  vou1_acc_no: vou1_acc_no
+  dwmc: dwmc
+  zsjgdm: zsjgdm
+  nsrbm: nsrbm
+  wbsbdzxh: wbsbdzxh
+  qydm: qydm
+  jydm: jydm
+  transcode: transcode
+
+  version: version
+  reqNode: reqNode
+  resNode: resNode
+  transaction: transaction
+  communication: communication
+  serverName: serverName
+urlfortax:
+  host: gxpnl.tfb.cn
+urlfrorefund:
+  url: "https://e.etest.tf.cn:4443/tianfupay/pay/frontRefund"
+

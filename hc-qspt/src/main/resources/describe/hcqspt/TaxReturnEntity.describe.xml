@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="int" javaType="Integer" />
+    <Field column="proc_result" property="procResult" jdbcType="varchar" javaType="String" />
+    <Field column="err_tex" property="errTex" jdbcType="varchar" javaType="String" />
+    <Field column="trans_date" property="transDate" jdbcType="varchar" javaType="String" />
+    <Field column="trans_time" property="transTime" jdbcType="varchar" javaType="String" />
+    <Field column="mid_serial_no" property="midSerialNo" jdbcType="varchar" javaType="String" />
+    <Field column="ctl_serial_no" property="ctlSerialNo" jdbcType="varchar" javaType="String" />
+    <Field column="wjbz" property="wjbz" jdbcType="varchar" javaType="String" />
+    <Field column="wjmc" property="wjmc" jdbcType="varchar" javaType="String" />
+    <Field column="jyje" property="jyje" jdbcType="varchar" javaType="String" />
+    <Field column="bz" property="bz" jdbcType="varchar" javaType="String" />
+    <Field column="order_id" property="orderId" jdbcType="varchar" javaType="String" />
+    <Field column="resource" property="resource" jdbcType="varchar" javaType="String" />
+  </Entity>
+</Describe>
+

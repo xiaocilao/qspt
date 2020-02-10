@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="int" javaType="Integer" />
+    <Field column="service" property="service" jdbcType="varchar" javaType="String" />
+    <Field column="service_version" property="serviceVersion" jdbcType="varchar" javaType="String" />
+    <Field column="input_charset" property="inputCharset" jdbcType="varchar" javaType="String" />
+    <Field column="sign_type" property="signType" jdbcType="varchar" javaType="String" />
+    <Field column="sign" property="sign" jdbcType="varchar" javaType="String" />
+    <Field column="returnSerNo" property="returnserno" jdbcType="varchar" javaType="String" />
+    <Field column="partner" property="partner" jdbcType="varchar" javaType="String" />
+    <Field column="subpartner" property="subpartner" jdbcType="varchar" javaType="String" />
+    <Field column="pay_info" property="payInfo" jdbcType="varchar" javaType="String" />
+    <Field column="trans_channel" property="transChannel" jdbcType="varchar" javaType="String" />
+    <Field column="out_trade_no" property="outTradeNo" jdbcType="varchar" javaType="String" />
+    <Field column="transaction_id" property="transactionId" jdbcType="varchar" javaType="String" />
+    <Field column="bank_type" property="bankType" jdbcType="varchar" javaType="String" />
+    <Field column="bank_transno" property="bankTransno" jdbcType="varchar" javaType="String" />
+    <Field column="total_fee" property="totalFee" jdbcType="decimal" javaType="Float" />
+    <Field column="trade_state" property="tradeState" jdbcType="int" javaType="Integer" />
+    <Field column="notify_id" property="notifyId" jdbcType="varchar" javaType="String" />
+    <Field column="fee_type" property="feeType" jdbcType="int" javaType="Integer" />
+    <Field column="time_end" property="timeEnd" jdbcType="varchar" javaType="String" />
+    <Field column="transport_fee" property="transportFee" jdbcType="decimal" javaType="Float" />
+    <Field column="product_fee" property="productFee" jdbcType="decimal" javaType="Float" />
+    <Field column="discount" property="discount" jdbcType="decimal" javaType="Float" />
+    <Field column="attach" property="attach" jdbcType="varchar" javaType="String" />
+    <Field column="buyerId" property="buyerid" jdbcType="varchar" javaType="String" />
+    <Field column="externalId" property="externalid" jdbcType="varchar" javaType="String" />
+    <Field column="retcode" property="retcode" jdbcType="varchar" javaType="String" />
+    <Field column="promotion_detail" property="promotionDetail" jdbcType="varchar" javaType="String" />
+  </Entity>
+</Describe>
+

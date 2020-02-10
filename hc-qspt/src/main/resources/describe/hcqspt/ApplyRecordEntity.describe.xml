@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="varchar" javaType="String" />
+    <Field column="sqr_id" property="sqrId" jdbcType="varchar" javaType="String" />
+    <Field column="sqr_xm" property="sqrXm" jdbcType="varchar" javaType="String" />
+    <Field column="sqsj" property="sqsj" jdbcType="datetime" javaType="Date" />
+    <Field column="spr_id" property="sprId" jdbcType="varchar" javaType="String" />
+    <Field column="spr_xm" property="sprXm" jdbcType="varchar" javaType="String" />
+    <Field column="spsj" property="spsj" jdbcType="datetime" javaType="Date" />
+    <Field column="spzt" property="spzt" jdbcType="tinyint" javaType="Integer" />
+    <Field column="sfyz" property="sfyz" jdbcType="tinyint" javaType="Integer" />
+    <Field column="hyzk" property="hyzk" jdbcType="tinyint" javaType="Integer" />
+    <Field column="hkbxx" property="hkbxx" jdbcType="tinyint" javaType="Integer" />
+    <Field column="gffp" property="gffp" jdbcType="tinyint" javaType="Integer" />
+    <Field column="gfht" property="gfht" jdbcType="tinyint" javaType="Integer" />
+    <Field column="sqs" property="sqs" jdbcType="tinyint" javaType="Integer" />
+    <Field column="cqbc" property="cqbc" jdbcType="tinyint" javaType="Integer" />
+    <Field column="zlsh" property="zlsh" jdbcType="tinyint" javaType="Integer" />
+    <Field column="qsjs" property="qsjs" jdbcType="varchar" javaType="String" />
+    <Field column="qsjsr_id" property="qsjsrId" jdbcType="varchar" javaType="String" />
+    <Field column="qsjsr_xm" property="qsjsrXm" jdbcType="varchar" javaType="String" />
+    <Field column="qsjssj" property="qsjssj" jdbcType="date" javaType="Date" />
+    <Field column="sqkk" property="sqkk" jdbcType="tinyint" javaType="Integer" />
+    <Field column="sqkk_yhzh" property="sqkkYhzh" jdbcType="varchar" javaType="String" />
+    <Field column="sqkk_khh" property="sqkkKhh" jdbcType="varchar" javaType="String" />
+    <Field column="sqkk_zhm" property="sqkkZhm" jdbcType="varchar" javaType="String" />
+    <Field column="sqkksj" property="sqkksj" jdbcType="date" javaType="Date" />
+    <Field column="kkcg" property="kkcg" jdbcType="tinyint" javaType="Integer" />
+    <Field column="kkcgsj" property="kkcgsj" jdbcType="date" javaType="Date" />
+    <Field column="yjpz" property="yjpz" jdbcType="tinyint" javaType="Integer" />
+    <Field column="yjr_id" property="yjrId" jdbcType="varchar" javaType="String" />
+    <Field column="yjr_xm" property="yjrXm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrsj" property="xtLrsj" jdbcType="date" javaType="Date" />
+    <Field column="xt_lrrxm" property="xtLrrxm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrrid" property="xtLrrid" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrip" property="xtLrip" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgsj" property="xtZhxgsj" jdbcType="date" javaType="Date" />
+    <Field column="xt_zhxgrxm" property="xtZhxgrxm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgrid" property="xtZhxgrid" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgip" property="xtZhxgip" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zxbz" property="xtZxbz" jdbcType="tinyint" javaType="Integer" />
+    <Field column="xt_zxyy" property="xtZxyy" jdbcType="varchar" javaType="String" />
+    <Field column="num" property="num" jdbcType="int" javaType="Integer" />
+    <Field column="xt_sqbz" property="xtSqbz" jdbcType="tinyint" javaType="Integer" />
+    <Field column="xt_phone" property="xtPhone" jdbcType="varchar" javaType="String" />
+  </Entity>
+</Describe>
+

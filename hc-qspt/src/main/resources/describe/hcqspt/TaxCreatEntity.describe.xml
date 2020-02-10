@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="int" javaType="Integer" />
+    <Field column="prcscd" property="prcscd" jdbcType="varchar" javaType="String" />
+    <Field column="brh_no" property="brhNo" jdbcType="int" javaType="Integer" />
+    <Field column="opr_no" property="oprNo" jdbcType="int" javaType="Integer" />
+    <Field column="abst_cd" property="abstCd" jdbcType="varchar" javaType="String" />
+    <Field column="mid_item" property="midItem" jdbcType="varchar" javaType="String" />
+    <Field column="mid_pay_type" property="midPayType" jdbcType="varchar" javaType="String" />
+    <Field column="jyje" property="jyje" jdbcType="varchar" javaType="String" />
+    <Field column="vou1_acc_no" property="vou1AccNo" jdbcType="varchar" javaType="String" />
+    <Field column="dwmc" property="dwmc" jdbcType="varchar" javaType="String" />
+    <Field column="zsjgdm" property="zsjgdm" jdbcType="varchar" javaType="String" />
+    <Field column="nsrbm" property="nsrbm" jdbcType="varchar" javaType="String" />
+    <Field column="wbsbdzxh" property="wbsbdzxh" jdbcType="varchar" javaType="String" />
+    <Field column="qydm" property="qydm" jdbcType="varchar" javaType="String" />
+    <Field column="jydm" property="jydm" jdbcType="varchar" javaType="String" />
+    <Field column="transcode" property="transcode" jdbcType="varchar" javaType="String" />
+    <Field column="order_id" property="orderId" jdbcType="varchar" javaType="String" />
+  </Entity>
+</Describe>
+

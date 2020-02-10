@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="varchar" javaType="String" />
+    <Field column="apply_id" property="applyId" jdbcType="varchar" javaType="String" />
+    <Field column="shuidan_id" property="shuidanId" jdbcType="varchar" javaType="String" />
+    <Field column="sjr" property="sjr" jdbcType="varchar" javaType="String" />
+    <Field column="sjhm" property="sjhm" jdbcType="varchar" javaType="String" />
+    <Field column="lqdz" property="lqdz" jdbcType="text" javaType="String" />
+    <Field column="user_id" property="userId" jdbcType="varchar" javaType="String" />
+    <Field column="postal_code" property="postalCode" jdbcType="varchar" javaType="String" />
+    <Field column="status" property="status" jdbcType="varchar" javaType="String" />
+    <Field column="post_number" property="postNumber" jdbcType="varchar" javaType="String" />
+    <Field column="post_name" property="postName" jdbcType="varchar" javaType="String" />
+
+  </Entity>
+</Describe>
+

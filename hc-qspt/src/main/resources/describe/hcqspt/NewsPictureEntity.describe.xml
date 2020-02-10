@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="varchar" javaType="String" />
+    <Field column="news_id" property="newsId" jdbcType="varchar" javaType="String" />
+    <Field column="name" property="name" jdbcType="varchar" javaType="String" />
+    <Field column="size" property="size" jdbcType="varchar" javaType="String" />
+    <Field column="url" property="url" jdbcType="varchar" javaType="String" />
+    <Field column="picture_content" property="pictureContent" jdbcType="blob" javaType="byte[]" />
+  </Entity>
+</Describe>
+

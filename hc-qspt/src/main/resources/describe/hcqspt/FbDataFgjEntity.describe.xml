@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="user_id" property="userId" jdbcType="varchar" javaType="String" />
+    <Field column="bab_url" property="babUrl" jdbcType="varchar" javaType="String" />
+    <Field column="wfzm_url" property="wfzmUrl" jdbcType="varchar" javaType="String" />
+    <Field column="sfk_id" property="sfkId" jdbcType="varchar" javaType="String" />
+    <Field column="sfz_id" property="sfzId" jdbcType="varchar" javaType="String" />
+    <Field column="hkb_id" property="hkbId" jdbcType="varchar" javaType="String" />
+    <Field column="hyzkzm_id" property="hyzkzmId" jdbcType="varchar" javaType="String" />
+    <Field column="ghdyfcxy_id" property="ghdyfcxyId" jdbcType="varchar" javaType="String" />
+    <Field column="ht_url" property="htUrl" jdbcType="varchar" javaType="String" />
+    <Field column="qzy_id" property="qzyId" jdbcType="varchar" javaType="String" />
+  </Entity>
+</Describe>
+

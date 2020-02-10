@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="varchar" javaType="String" />
+    <Field column="column_name" property="columnName" jdbcType="varchar" javaType="String" />
+  </Entity>
+</Describe>
+

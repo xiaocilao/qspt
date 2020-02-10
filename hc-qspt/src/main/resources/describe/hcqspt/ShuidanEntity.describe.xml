@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="varchar" javaType="String" />
+    <Field column="zsxmmc" property="zsxmmc" jdbcType="varchar" javaType="String" />
+    <Field column="swjgmc" property="swjgmc" jdbcType="varchar" javaType="String" />
+    <Field column="nsrmc" property="nsrmc" jdbcType="varchar" javaType="String" />
+    <Field column="nsrsbh" property="nsrsbh" jdbcType="varchar" javaType="String" />
+    <Field column="pzxh" property="pzxh" jdbcType="varchar" javaType="String" />
+    <Field column="jehjxx" property="jehjxx" jdbcType="varchar" javaType="String" />
+    <Field column="jehjdx" property="jehjdx" jdbcType="varchar" javaType="String" />
+    <Field column="skxjrq" property="skxjrq" jdbcType="date" javaType="Date" />
+    <Field column="zfzt" property="zfzt" jdbcType="tinyint" javaType="Integer" />
+    <Field column="nsrbh" property="nsrbh" jdbcType="varchar" javaType="String" />
+    <Field column="apply_id" property="applyId" jdbcType="varchar" javaType="String" />
+    <Field column="sdtp" property="sdtp" jdbcType="blob" javaType="Long" />
+    <Field column="kk" property="kk" jdbcType="varchar" javaType="String" />
+    <Field column="yhs" property="yhs" jdbcType="varchar" javaType="String" />
+
+
+  </Entity>
+</Describe>
+

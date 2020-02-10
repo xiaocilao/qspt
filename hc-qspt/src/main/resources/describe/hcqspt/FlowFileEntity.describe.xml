@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="varchar" javaType="String" />
+    <Field column="apply_id" property="applyId" jdbcType="varchar" javaType="String" />
+    <Field column="info_id" property="infoId" jdbcType="varchar" javaType="String" />
+    <Field column="file_size" property="fileSize" jdbcType="varchar" javaType="String" />
+    <Field column="file_content" property="fileContent" jdbcType="blob" javaType="byte[]" />
+    <Field column="flle_dxcc_url" property="flleDxccUrl" jdbcType="varchar" javaType="String" />
+    <Field column="shzt" property="shzt" jdbcType="tinyint" javaType="Integer" />
+    <Field column="shyj" property="shyj" jdbcType="varchar" javaType="String" />
+    <Field column="shr_id" property="shrId" jdbcType="varchar" javaType="String" />
+    <Field column="shr_xm" property="shrXm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrsj" property="xtLrsj" jdbcType="date" javaType="Date" />
+    <Field column="xt_lrrxm" property="xtLrrxm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrrid" property="xtLrrid" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrip" property="xtLrip" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgsj" property="xtZhxgsj" jdbcType="date" javaType="Date" />
+    <Field column="xt_zhxgrxm" property="xtZhxgrxm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgrid" property="xtZhxgrid" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgip" property="xtZhxgip" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zxbz" property="xtZxbz" jdbcType="tinyint" javaType="Integer" />
+    <Field column="xt_zxyy" property="xtZxyy" jdbcType="varchar" javaType="String" />
+    <Field column="flow_id" property="flowId" jdbcType="varchar" javaType="String" />
+    <Field column="sort" property="sort" jdbcType="tinyint" javaType="Integer" />
+    <Field column="file_dxcc_url" property="fileDxccUrl" jdbcType="varchar" javaType="String" />
+    <Field column="file_small_content" property="fileSmallContent" jdbcType="blob" javaType="byte[]" />
+    <Field column="file_small_dxcc_url" property="fileSmallDxccUrl" jdbcType="varchar" javaType="String" />
+    <Field column="file_bz" property="fileBz" jdbcType="varchar" javaType="String" />
+    <Field column="samll_picture" property="samllPicture" jdbcType="blob" javaType="byte[]" />
+    <Field column="xgsj" property="xgsj" jdbcType="datetime" javaType="Date" />
+    <Field column="small_picture" property="smallPicture" jdbcType="blob" javaType="byte[]" />
+  </Entity>
+</Describe>
+

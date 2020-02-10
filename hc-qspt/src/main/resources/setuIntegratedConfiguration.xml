@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<setu SessionTimeOut="172800" OnlyOneLogin="false" MonitorSwitch="true"
+		  SetuMonitorPassword="123456" CrossDomain="" CrossDomainList=""
+		  ReScan="true" ScanPeriod="60" LogHandler="true" LogPeriod="3"
+		  LogLevel="error" PageRowSize="20"/>
+	<!--10.110.110.13   32001-->
+	<redis redis.host="127.0.0.1" redis.port="6378" redis.pass="zxkj@2018"
+		   redis.maxIdle="100" redis.maxActive="500" redis.maxWait="10000"
+		   redis.testOnBorrow="true">
+		<cache name="SETU_ROOT_CACHE" index="0" />
+		<cache name="SETU_URL_CACHE" index="1" />
+		<cache name="SETU_TOKEN_CACHE" index="2" />
+		<cache name="SETU_LOCK_CACHE" index="3" />
+		<cache name="SETU_TASK_CACHE" index="4" />
+		<cache name="SETU_TASKBEAN_CACHE" index="5" />
+		<cache name="SETU_TRANSACTION_TASK_CACHE" index="6" />
+		<cache name="SETU_MSG_CACHE" index="7" />
+		<cache name="SETU_MSGBEAN_CACHE" index="8" />
+		<cache name="SETU_DEBUG_CACHE" index="9" />
+		<cache name="HC_QSPT_CACHE" index="10" />
+	</redis>
+	<dataSources>
+
+		<dataSource_qspt>
+			<dataSource   url="jdbc:mysql://127.0.0.1:3306/hcqspt?characterEncoding=utf8&amp;serverTimezone=GMT%2B8&amp;useSSL=false" username="root" password="123456" minIdle="1" maxActive="10" isEncrypt="false">
+				<dataSourceMapper databaseName="hcqspt" dbConnectionName="DC$HCQSPT" isDefault="true"/>
+			</dataSource>
+		</dataSource_qspt>
+	</dataSources>
+	<project>
+		<hc-qspt webPort="8080" owner="hfl" version="1.0.0" file="D:/jwzh/" monitorSwitch="true" sourceid="dataSource_qspt" cacheTimeOut="129600"/>
+	</project>
+</config>

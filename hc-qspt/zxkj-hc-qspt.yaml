@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zxkj-hc-qspt
+  labels:
+    app: zxkj-hc-qspt
+spec:
+  type: NodePort
+  ports:
+  - port: 30001
+    name: http
+    targetPort: 30001
+    nodePort: 30001
+  selector:
+    app: zxkj-hc-qspt
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zxkj-hc-qspt
+spec:
+  minReadySeconds: 70
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: zxkj-hc-qspt
+  replicas: 3
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      labels:
+        app: zxkj-hc-qspt
+        version: v1
+    spec:
+      volumes:
+      - name: log-volume
+        hostPath:
+          path: /var/log/zxkj-hc-qspt
+          type: DirectoryOrCreate
+      #hostAliases:
+      #- ip: "10.28.30.11"
+      #  hostnames:
+      #  - "a.b.c"
+      containers:
+      - name: zxkj-hc-qspt
+        image: docker_image
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "2Gi"
+          limits:
+            cpu: "4000m"
+            memory: "4Gi"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 30001
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "pro,PRO,PROD,prod"
+        volumeMounts:
+        - mountPath: /var/log/zxkj-hc-qspt
+          name: log-volume

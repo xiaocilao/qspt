@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="varchar" javaType="Integer" />
+    <Field column="title" property="title" jdbcType="varchar" javaType="String" />
+    <Field column="name" property="name" jdbcType="varchar" javaType="String" />
+    <Field column="content" property="content" jdbcType="text" javaType="String" />
+    <Field column="create_date" property="createDate" jdbcType="datetime" javaType="Date" />
+    <Field column="picture" property="picture" jdbcType="blob" javaType="byte[]" />
+    <Field column="edit_name" property="editName" jdbcType="varchar" javaType="String" />
+    <Field column="update_date" property="updateDate" jdbcType="datetime" javaType="Date" />
+    <Field column="state" property="state" jdbcType="int" javaType="Integer" />
+    <Field column="click_count" property="clickCount" jdbcType="int" javaType="Integer" />
+    <Field column="tag_label" property="tagLabel" jdbcType="varchar" javaType="String" />
+    <Field column="columns" property="columns" jdbcType="varchar" javaType="String" />
+    <Field column="short_title" property="shortTitle" jdbcType="varchar" javaType="String" />
+    <Field column="data_source" property="dataSource" jdbcType="varchar" javaType="String" />
+    <Field column="write_name" property="writeName" jdbcType="varchar" javaType="String" />
+    <Field column="stick" property="stick" jdbcType="int" javaType="Integer" />
+    <Field column="check_state" property="checkState" jdbcType="int" javaType="Integer" />
+    <Field column="stick_picture" property="stickPicture" jdbcType="blob" javaType="byte[]" />
+    <Field column="xt_lrsj" property="xtLrsj" jdbcType="datetime" javaType="Date" />
+    <Field column="xt_lrrxm" property="xtLrrxm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrrid" property="xtLrrid" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrip" property="xtLrip" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgsj" property="xtZhxgsj" jdbcType="datetime" javaType="Date" />
+    <Field column="xt_zhxgrxm" property="xtZhxgrxm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgrid" property="xtZhxgrid" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgip" property="xtZhxgip" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zxbz" property="xtZxbz" jdbcType="varchar" javaType="Integer" />
+    <Field column="xt_zxyy" property="xtZxyy" jdbcType="varchar" javaType="String" />
+    <Field column="fb_date" property="fbDate" jdbcType="datetime" javaType="Date" />
+  </Entity>
+</Describe>
+

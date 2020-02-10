@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="varchar" javaType="String" />
+    <Field column="userName" property="username" jdbcType="varchar" javaType="String" />
+    <Field column="idcard" property="idcard" jdbcType="varchar" javaType="String" />
+    <Field column="houseAddress" property="houseaddress" jdbcType="varchar" javaType="String" />
+    <Field column="houseId" property="houseid" jdbcType="varchar" javaType="String" />
+    <Field column="zsxmmc" property="zsxmmc" jdbcType="varchar" javaType="String" />
+    <Field column="swjgmc" property="swjgmc" jdbcType="varchar" javaType="String" />
+    <Field column="nsrmc" property="nsrmc" jdbcType="varchar" javaType="String" />
+    <Field column="nsrbh" property="nsrbh" jdbcType="varchar" javaType="String" />
+    <Field column="pzxh" property="pzxh" jdbcType="varchar" javaType="String" />
+    <Field column="jehjxx" property="jehjxx" jdbcType="varchar" javaType="String" />
+    <Field column="jehjdx" property="jehjdx" jdbcType="varchar" javaType="String" />
+    <Field column="skxjrq" property="skxjrq" jdbcType="date" javaType="Date" />
+    <Field column="xt_lrsj" property="xtLrsj" jdbcType="datetime" javaType="Date" />
+    <Field column="xt_lrrxm" property="xtLrrxm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrrid" property="xtLrrid" jdbcType="varchar" javaType="String" />
+    <Field column="xt_lrip" property="xtLrip" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgsj" property="xtZhxgsj" jdbcType="datetime" javaType="Date" />
+    <Field column="xt_zhxgrxm" property="xtZhxgrxm" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgrid" property="xtZhxgrid" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zhxgip" property="xtZhxgip" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zxbz" property="xtZxbz" jdbcType="tinyint" javaType="Integer" />
+    <Field column="xt_zxyy" property="xtZxyy" jdbcType="varchar" javaType="String" />
+    <Field column="userId" property="userid" jdbcType="varchar" javaType="String" />
+    <Field column="jnzt" property="jnzt" jdbcType="varchar" javaType="String" />
+    <Field column="applyId" property="applyid" jdbcType="varchar" javaType="String" />
+    <Field column="isSuccess" property="issuccess" jdbcType="varchar" javaType="String" />
+  </Entity>
+</Describe>
+

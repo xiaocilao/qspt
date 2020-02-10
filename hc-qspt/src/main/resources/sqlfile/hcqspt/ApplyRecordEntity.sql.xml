@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SQLDescribe>
+<sql name="sqlUpdateSprForFirstApplyRecord" type="sql" exe="update" description="获取第一条审批数据并实现分派">
+	update apply_record
+	<checknull param="userId"  from="session"  el="#session['userId']">
+		set spr_id = #{userId}
+	</checknull>
+	<checknull param="userName" from="session"  el="#session['userName']">
+		,spr_xm = #{userName}
+	</checknull>
+	,spsj=now()
+	where 1=1
+	and spr_id is null
+	and spzt='1'
+	and xt_zxbz=0
+	limit 1
+</sql>
+</SQLDescribe>

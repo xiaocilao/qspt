@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Describe>
+  <Entity>
+    <Field column="id" property="id" jdbcType="varchar" javaType="String" />
+    <Field column="apply_user_id" property="applyUserId" jdbcType="varchar" javaType="String" />
+    <Field column="yhkh" property="yhkh" jdbcType="varchar" javaType="String" />
+    <Field column="xm" property="xm" jdbcType="varchar" javaType="String" />
+    <Field column="sjh" property="sjh" jdbcType="varchar" javaType="String" />
+    <Field column="yhlx" property="yhlx" jdbcType="varchar" javaType="String" />
+    <Field column="xt_zxbz" property="xtZxbz" jdbcType="tinyint" javaType="Integer" />
+  </Entity>
+</Describe>
+

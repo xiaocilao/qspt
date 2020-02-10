@@ -1,0 +1,59 @@
+server:
+  port: 80
+debug: false
+
+web:
+  url: .
+
+spring:
+  profiles:
+    active:
+      - dev
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: utf-8
+    cache: false
+  http:
+    encoding:
+      charset: utf-8
+      force: true
+  jpa:
+    show-sql: true
+
+logging:
+  level: 
+    root: info
+  
+setu:
+  applicationName: hc-qspt
+  
+druid: 
+ enabled: true
+ loginUsername: root
+ loginPassword: 123456
+ resetEnable: false
+ allow: true
+
+ baiduyun:
+   ocr:
+     clientId: UA1EFy4QMnqk7EliZyYHP1UG
+     clientSecret: ZGrw8SqNvakOGjL9o76CB5ALKSRV2dkE
+
+ aliyun:
+   duanxin:
+     accessKeyId: LTAIQC66U4IVwrPY
+     accessKeySecret: A6PvKt7kipVbJuPk0eTVYVHPbqVwMs
+     signName: 燊税通
+     templateCode: SMS_152286192
+
+ wxxcx:
+   appid: wxd7b12a883d8d5364
+   secret: 924df9ee8f31100de878fd3b19aa208d
+
+ wxgzh:
+   appid: wx76f40682b2212159
+   secret: 49ff1316b27df3b8db150617d6b6b00e
+   token: taxweixingongzhtoken
+   encodingAESKey: 6Rkeu54McOj1BLsbE0ovl0pi9pAayvsexOyBVZNgkh0
