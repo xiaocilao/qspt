@@ -1,0 +1,6 @@
+1.git拉取项目时出现EOF错误
+答:git config --global http.postBuffer 524288000
+2.connot resolve symbol 'XXX'
+答：第一要想到是否确包，如果是String或者导入java包的时候报错，则是idea或者esclipse没导入jdk所导致。
+3.mySQL Packet for query is too large (6071393 > 4194304)
+答：my.ini 加上 max_allowed_packet =67108864，重启服务。
