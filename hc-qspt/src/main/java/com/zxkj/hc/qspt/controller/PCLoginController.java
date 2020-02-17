@@ -187,13 +187,13 @@ public class PCLoginController  extends SetuSessionController {
     //文件下载
     @RequestMapping("/dowload")
     @ResponseBody
-    public void  dowload(HttpServletResponse response,String id) throws Exception{
+    public void  dowload(HttpServletResponse response,String id) throws Exception {
         File file = null;
         String filePar = null;
-        filePar = "D:qishuidowload/";// 文件夹路径
-        File myPath = new File( filePar );
-        file = new File(filePar+"/"+"qishui.pdf");
-        if (!myPath.exists()){
+        filePar = "B:qishuidowload/";// 文件夹路径
+        File myPath = new File(filePar);
+        file = new File(filePar + "/" + "qishui.pdf");
+        if (!myPath.exists()) {
             myPath.mkdir();
         }
         Rectangle tRectangle = new Rectangle(PageSize.A4); // 页面大小 
@@ -207,7 +207,6 @@ public class PCLoginController  extends SetuSessionController {
         PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(file));// 书写器 
         writer.setPdfVersion(PdfWriter.PDF_VERSION_1_2);//版本(默认1.4) 
         //设置PDF文档属性 
-        doc.addTitle("契税");// 标题 
         Paragraph tParagraph = new Paragraph("契税", getChineseFont());
         tParagraph.setAlignment(Element.ALIGN_JUSTIFIED);// 对齐方式 
         //下载时间
@@ -215,146 +214,143 @@ public class PCLoginController  extends SetuSessionController {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Paragraph xzsj = new Paragraph(simpleDateFormat.format(date), getChineseFontContent());
         xzsj.setAlignment(Element.ALIGN_RIGHT);// 对齐方式
-
-
-
         ApplyRecordEntity applyRecordEntity = new ApplyRecordEntity();
         applyRecordEntity.setId(id);
-        try{
+        try {
             applyRecordEntity.queryBySelf();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("查询用户出错！");
             return;
         }
         Paragraph czdx = new Paragraph(applyRecordEntity.getSprXm(), getChineseFontContent());
         czdx.setAlignment(Element.ALIGN_RIGHT);// 对齐方式 
         doc.open();// 打开文档 
-
-        List<FlowDataEntity> listFlowData  = queryFlow(id,"sfyz");
+        doc.addTitle("契税");// 标题 
+        doc.add(tParagraph);
+        List<FlowDataEntity> listFlowData = queryFlow(id, "sfyz");
         Paragraph sfyz = new Paragraph("身份验证", getChineseFont());
         doc.add(sfyz);
-        String flowId = insertData(listFlowData,doc);
-        setImag(flowId,doc);
+        String flowId = insertData(listFlowData, doc);
+        setImag(flowId, doc);
         //婚姻状况
         Boolean canGo = true;
         String hyzkString = "";
-        List<FlowDataEntity> listHyzk  = queryFlow(id,"hyzk");
-            if(listHyzk==null){
-                canGo = false;
-            }
-        if(canGo){
+        List<FlowDataEntity> listHyzk = queryFlow(id, "hyzk");
+        if (listHyzk == null) {
+            canGo = false;
+        }
+        if (canGo) {
             Paragraph hyzk = new Paragraph("婚姻状态", getChineseFont());
             hyzk.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
             doc.add(hyzk);
-            for (FlowDataEntity forHyzk:listHyzk
+            for (FlowDataEntity forHyzk : listHyzk
             ) {
-                if(forHyzk.getKeyName().equalsIgnoreCase("结婚时间")){
+                if (forHyzk.getKeyName().equalsIgnoreCase("结婚时间")) {
                     StringBuffer yh = new StringBuffer();
                     yh.append("婚姻状况：已婚");
                     Paragraph hyPage = new Paragraph(yh.toString(), getChineseFontContent());
                     doc.add(hyPage);
                     StringBuffer jhsh = new StringBuffer();
-                    jhsh.append("结婚时间："+forHyzk.getKeyValue());
+                    jhsh.append("结婚时间：" + forHyzk.getKeyValue());
                     sfyz.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
                     Paragraph sfz = new Paragraph(jhsh.toString(), getChineseFontContent());
                     doc.add(sfz);
                     hyzkString = forHyzk.getFlowId();
                 }
-
             }
             //婚姻状况图片
-            if(!hyzkString.equals("")){
-                setImag(hyzkString,doc);
-            }
-        }else{
+//            if(!hyzkString.equals("")){
+//                setImag(hyzkString,doc);
+//            }
+        } else {
             StringBuffer yh = new StringBuffer();
             yh.append("婚姻状况：未婚");
             Paragraph hyPage = new Paragraph(yh.toString(), getChineseFontContent());
             doc.add(hyPage);
         }
-
-        //户口簿信息
-        List<FlowDataEntity> hkbList  = queryFlow(id,"hkbxx");
-        Paragraph hkbxx = new Paragraph("户口簿信息", getChineseFont());
-        doc.add(hkbxx);
-        String flowId1 = insertData(hkbList,doc);
-        setImag(flowId1,doc);
-
-        //购房发票
-        String flowId2 = "";
-        List<FlowDataEntity> gffpList  = queryFlow(id,"gffp");
-        Paragraph gffp = new Paragraph("购房发票", getChineseFont());
-        doc.add(gffp);
-        for (FlowDataEntity flowDataEntity:gffpList
-        ) {
-
-            gffp.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
-            StringBuffer xxdistring = new StringBuffer();
-            if(flowDataEntity.getKeyName().equalsIgnoreCase("购买房屋的详细地址")){
-                xxdistring.append("购买房屋的详细地址："+flowDataEntity.getKeyValue());
-                Paragraph xxdiP = new Paragraph(xxdistring.toString(), getChineseFontContent());
-                doc.add(xxdiP);
-                flowId2 = flowDataEntity.getFlowId();
-            }
-            if(flowDataEntity.getKeyName().equalsIgnoreCase("第几套房")){
-                xxdistring.append("第几套房："+flowDataEntity.getKeyValue());
-                Paragraph jtfP = new Paragraph(xxdistring.toString(), getChineseFontContent());
-                doc.add(jtfP);
-            }
-            if(flowDataEntity.getKeyName().equalsIgnoreCase("获取方式")){
-                xxdistring.append("获取方式："+flowDataEntity.getKeyValue());
-                Paragraph hqfsP = new Paragraph(xxdistring.toString(), getChineseFontContent());
-                doc.add(hqfsP);
-            }
-            if(flowDataEntity.getKeyName().equalsIgnoreCase("《房屋所有权证》证号")){
-                xxdistring.append("《房屋所有权证》证号："+flowDataEntity.getKeyValue());
-                Paragraph zhP = new Paragraph(xxdistring.toString(), getChineseFontContent());
-                doc.add(zhP);
-            }
-        }
-        if(!flowId2.equalsIgnoreCase(""))
-            setImag(flowId2,doc);
-        //购房合同
-        String flowId3 = "";
-        Paragraph gfht = new Paragraph("购房合同", getChineseFont());
-        gfht.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
-        doc.add(gfht);
-        List<FlowDataEntity> gfhtList  = queryFlow(id,"gfht");
-        Paragraph gfhtp = new Paragraph("购房发票", getChineseFont());
-        doc.add(gfhtp);
-        for (FlowDataEntity flowDataEntity:gfhtList
-        ) {
-            if(flowDataEntity.getKeyName().equalsIgnoreCase("证件类型")){
-                StringBuffer zjlxstring = new StringBuffer();
-                zjlxstring.append("证件类型："+flowDataEntity.getKeyValue());
-                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
-                doc.add(zjlxP);
-            }
-            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋价格")){
-                StringBuffer zjlxstring = new StringBuffer();
-                zjlxstring.append("房屋价格："+flowDataEntity.getKeyValue());
-                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
-                doc.add(zjlxP);
-                flowId3 = flowDataEntity.getFlowId();
-            }
-            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋类型")){
-                StringBuffer zjlxstring = new StringBuffer();
-                zjlxstring.append("房屋类型："+flowDataEntity.getKeyValue());
-                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
-                doc.add(zjlxP);
-            }
-            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋面积")){
-                StringBuffer zjlxstring = new StringBuffer();
-                zjlxstring.append("房屋面积："+flowDataEntity.getKeyValue());
-                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
-                doc.add(zjlxP);
-            }
-        }
-        if(!flowId3.equalsIgnoreCase(""))
-            setImag(flowId3,doc);
+//        //户口簿信息
+//        List<FlowDataEntity> hkbList  = queryFlow(id,"hkbxx");
+//        Paragraph hkbxx = new Paragraph("户口簿信息", getChineseFont());
+//        doc.add(hkbxx);
+//        String flowId1 = insertData(hkbList,doc);
+////        setImag(flowId1,doc);
+//
+//        //购房发票
+//        String flowId2 = "";
+//        List<FlowDataEntity> gffpList  = queryFlow(id,"gffp");
+//        Paragraph gffp = new Paragraph("购房发票", getChineseFont());
+//        doc.add(gffp);
+//        for (FlowDataEntity flowDataEntity:gffpList
+//        ) {
+//
+//            gffp.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
+//            StringBuffer xxdistring = new StringBuffer();
+//            if(flowDataEntity.getKeyName().equalsIgnoreCase("购买房屋的详细地址")){
+//                xxdistring.append("购买房屋的详细地址："+flowDataEntity.getKeyValue());
+//                Paragraph xxdiP = new Paragraph(xxdistring.toString(), getChineseFontContent());
+//                doc.add(xxdiP);
+//                flowId2 = flowDataEntity.getFlowId();
+//            }
+//            if(flowDataEntity.getKeyName().equalsIgnoreCase("第几套房")){
+//                xxdistring.append("第几套房："+flowDataEntity.getKeyValue());
+//                Paragraph jtfP = new Paragraph(xxdistring.toString(), getChineseFontContent());
+//                doc.add(jtfP);
+//            }
+//            if(flowDataEntity.getKeyName().equalsIgnoreCase("获取方式")){
+//                xxdistring.append("获取方式："+flowDataEntity.getKeyValue());
+//                Paragraph hqfsP = new Paragraph(xxdistring.toString(), getChineseFontContent());
+//                doc.add(hqfsP);
+//            }
+//            if(flowDataEntity.getKeyName().equalsIgnoreCase("《房屋所有权证》证号")){
+//                xxdistring.append("《房屋所有权证》证号："+flowDataEntity.getKeyValue());
+//                Paragraph zhP = new Paragraph(xxdistring.toString(), getChineseFontContent());
+//                doc.add(zhP);
+//            }
+//        }
+////        if(!flowId2.equalsIgnoreCase(""))
+////            setImag(flowId2,doc);
+//        //购房合同
+//        String flowId3 = "";
+//        Paragraph gfht = new Paragraph("购房合同", getChineseFont());
+//        gfht.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
+//        doc.add(gfht);
+//        List<FlowDataEntity> gfhtList  = queryFlow(id,"gfht");
+//        Paragraph gfhtp = new Paragraph("购房发票", getChineseFont());
+//        doc.add(gfhtp);
+//        for (FlowDataEntity flowDataEntity:gfhtList
+//        ) {
+//            if(flowDataEntity.getKeyName().equalsIgnoreCase("证件类型")){
+//                StringBuffer zjlxstring = new StringBuffer();
+//                zjlxstring.append("证件类型："+flowDataEntity.getKeyValue());
+//                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
+//                doc.add(zjlxP);
+//            }
+//            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋价格")){
+//                StringBuffer zjlxstring = new StringBuffer();
+//                zjlxstring.append("房屋价格："+flowDataEntity.getKeyValue());
+//                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
+//                doc.add(zjlxP);
+//                flowId3 = flowDataEntity.getFlowId();
+//            }
+//            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋类型")){
+//                StringBuffer zjlxstring = new StringBuffer();
+//                zjlxstring.append("房屋类型："+flowDataEntity.getKeyValue());
+//                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
+//                doc.add(zjlxP);
+//            }
+//            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋面积")){
+//                StringBuffer zjlxstring = new StringBuffer();
+//                zjlxstring.append("房屋面积："+flowDataEntity.getKeyValue());
+//                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
+//                doc.add(zjlxP);
+//            }
+//        }
+//        if(!flowId3.equalsIgnoreCase(""))
+//            setImag(flowId3,doc);
         //授权书
-        Paragraph sqs = new Paragraph("授权书", getChineseFont());
-        sqs.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
+//        List<FlowDataEntity> sqsList  = queryFlow(id,"sqs");
+//        Paragraph sqs = new Paragraph("授权书", getChineseFont());
+//        doc.add(sqs);
         //拆迁补偿
         Paragraph qqbc = new Paragraph("拆迁补偿", getChineseFont());
         qqbc.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
@@ -365,43 +361,6 @@ public class PCLoginController  extends SetuSessionController {
         tParagraph.setLeading(20f);// 行间距 
         tParagraph.setSpacingBefore(5f);// 设置上空白 
         tParagraph.setSpacingAfter(10f);// 设置段落下空白
-        Image img = Image.getInstance("E:\\timg.jpg");
-//        Image img = Image.getInstance(flowFileEntity.getFileContent());
-        img.setAlignment(Image.MIDDLE);  //设置图片居中
-        img.setBorder(Image.BOX);
-        img.setBorderWidth(10);
-        img.setBorderColor(BaseColor.WHITE);
-        img.scaleToFit(900, 350);// 设置图片大小 
-
-//        ///  doc.add(tRectangle);
-//        doc.add(tParagraph); //添加段落
-//        doc.add(xzsj);
-//        doc.add(czdx);
-//
-//        //婚姻状况
-//        doc.add(hyzk);
-//        doc.add(hyzkP);
-//        doc.add(jhshsP);
-//        //户口簿信息
-//        doc.add(hkbxx);
-//        doc.add(hkbxmP);
-//        doc.add(hkbsfzP);
-//        //购房发票
-//        doc.add(gffp);
-//        doc.add(xxdiP);
-//        doc.add(djtfP);
-//        doc.add(hqfsP);
-//        doc.add(fcsyzzhP);
-//        //购房合同
-//        doc.add(gfht);
-//        doc.add(zjlxP);
-//        doc.add(fwjgP);
-//        doc.add(fwlxP);
-//        doc.add(fwmjP);
-//        //授权书
-//        doc.add(sqs);
-//        //拆迁补偿
-//        doc.add(qqbc);
         doc.close();  //记得关闭document
        //输出文件流
 
@@ -412,7 +371,6 @@ public class PCLoginController  extends SetuSessionController {
             os = response.getOutputStream();
             // 清空输出流
             response.reset();
-//            response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment;filename=" + "1.pdf");
             //读取流
@@ -470,6 +428,7 @@ public class PCLoginController  extends SetuSessionController {
             Image img = Image.getInstance(hyzkFile.queryBlobBySelf(FlowFileDto.FILE_CONTENT_C));
             doc.add(img);
         }
+
     }
     public String insertData(List<FlowDataEntity> hkbList,Document doc) throws Exception{
         String flowId = "";
@@ -495,7 +454,7 @@ public class PCLoginController  extends SetuSessionController {
     public List<FlowDataEntity> queryFlow(String id,String flowType){
         ApplyFlowEntity hyEntity = new ApplyFlowEntity();
         hyEntity.setApplyId(id);
-        hyEntity.setFlowType("hyzk");
+        hyEntity.setFlowType(flowType);
         try{
             hyEntity.queryBySelf();
         }catch (Exception e){
@@ -503,7 +462,7 @@ public class PCLoginController  extends SetuSessionController {
         }
         FlowDataEntity flowDataEntity = new FlowDataEntity();
         flowDataEntity.setFlowId(hyEntity.getId());
-        List<FlowDataEntity> gffpList =flowDataEntity.queryListBySelf(false,"LEFT JOIN flow_info ON flow_data.id = flow_info.flow_id" +
+        List<FlowDataEntity> gffpList =flowDataEntity.queryListBySelf(false,"LEFT JOIN flow_info ON flow_data.id = flow_info.flow_id " +
                 "and flow_data.info_id = flow_info.id",null,"flow_info.sort asc",null,null, new Column("flow_data.*"));
 
         return gffpList;

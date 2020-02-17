@@ -103,10 +103,6 @@
 			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
 			<version>1.1.0</version>
 		</dependency>
-		
-		
-		
-		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -229,12 +225,6 @@
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-			<version>1.4.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
 			<version>1.4.9</version>
 		</dependency>
         <dependency>
@@ -256,8 +246,11 @@
             <version>5.1.2.RELEASE</version>
             <scope>compile</scope>
         </dependency>
-
-
+		　<dependency>
+		　　　　<groupId>org.springframework.boot</groupId>
+		　　　　<artifactId>spring-boot-devtools</artifactId>
+		　　　　<scope>runtime</scope>
+		　</dependency>
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
@@ -269,21 +262,6 @@
 			<version>5.2.0</version>
 		</dependency>
     </dependencies>
-
-
-	<!--<profiles>-->
-		<!--<profile>-->
-			<!--<id>sonar</id>-->
-			<!--<properties>-->
-				<!--<sonar.language>java</sonar.language>-->
-				<!--<sonar.java.binaries>target</sonar.java.binaries>-->
-				<!--<sonar.host.url>http://172.32.6.134:9000/sonar</sonar.host.url>-->
-			<!--</properties>-->
-			<!--<activation>-->
-				<!--<activeByDefault>true</activeByDefault>-->
-			<!--</activation>-->
-		<!--</profile>-->
-	<!--</profiles>-->
 
 	<build>
 		<plugins>

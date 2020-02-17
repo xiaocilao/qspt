@@ -5,7 +5,7 @@
 		  ReScan="true" ScanPeriod="60" LogHandler="true" LogPeriod="3"
 		  LogLevel="error" PageRowSize="20"/>
 	<!--10.110.110.13   32001-->
-	<redis redis.host="127.0.0.1" redis.port="6378" redis.pass="zxkj@2018"
+	<redis redis.host="127.0.0.1" redis.port="6379" redis.pass="zxkj@2018"
 		   redis.maxIdle="100" redis.maxActive="500" redis.maxWait="10000"
 		   redis.testOnBorrow="true">
 		<cache name="SETU_ROOT_CACHE" index="0" />
@@ -29,6 +29,6 @@
 		</dataSource_qspt>
 	</dataSources>
 	<project>
-		<hc-qspt webPort="8080" owner="hfl" version="1.0.0" file="D:/jwzh/" monitorSwitch="true" sourceid="dataSource_qspt" cacheTimeOut="129600"/>
+		<hc-qspt webPort="8080" owner="hfl" version="1.0.0" file="B:/jwzh/" monitorSwitch="true" sourceid="dataSource_qspt" cacheTimeOut="129600"/>
 	</project>
 </config>
