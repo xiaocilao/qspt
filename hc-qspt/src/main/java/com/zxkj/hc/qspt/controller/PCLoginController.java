@@ -532,8 +532,8 @@ public class PCLoginController  extends SetuSessionController {
                                 Map<String, Object> img = (Map<String, Object>)entry_in_map.getValue();
                                 if(img.containsKey("path")){
                                     Object path = img.get("path");
-                                    if(path != null && !path.toString().trim().equals("")){
-                                        Image c_img = Image.getInstance(path.toString());
+                                    if(path != null ){
+                                        Image c_img = (Image) img.get("path");
                                         float w = c_img.getWidth();
                                         float h = c_img.getHeight();
                                         if(img.containsKey("w")){
