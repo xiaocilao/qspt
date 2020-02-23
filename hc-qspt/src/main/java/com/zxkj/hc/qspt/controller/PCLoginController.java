@@ -33,6 +33,8 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -87,9 +89,9 @@ public class PCLoginController  extends SetuSessionController {
         map.put("list",recordData);
         return map;
     }
-    /*
-    得到邮寄信息
-     */
+   /*
+   得到邮寄信息
+    */
     @RequestMapping("/yjxx")
     @ResponseBody
     public Map yjxx(String userId) {
@@ -184,12 +186,18 @@ public class PCLoginController  extends SetuSessionController {
         map.put("code","200");
         return map;
     }
-
+            
     @RequestMapping("/dowload")
     public void  dowload(HttpServletResponse response,String id) throws Exception{
-        Map<String, Object> data = new HashMap<String, Object>();
-        Map<String, Object> indata = new HashMap<String, Object>();
-        //查询身份验证
+        Map<String, Object> data = new LinkedHashMap<String, Object>();
+        Map<String, Object> indata = new LinkedHashMap<String, Object>();
+        
+        //下载时间
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        indata.put("日期", simpleDateFormat.format(date));
+        data.put("契税", indata);// 标题 
+        
         ApplyRecordEntity applyRecordEntity = new ApplyRecordEntity();
         applyRecordEntity.setId(id);
         try{
@@ -198,257 +206,80 @@ public class PCLoginController  extends SetuSessionController {
             System.out.println("查询用户出错！");
             return;
         }
+        //身份证
+        indata = new LinkedHashMap<String, Object>();
         List<FlowDataEntity> listFlowData  = queryFlow(id,"sfyz");
-        String flowId = insertData(listFlowData,indata);
-        //插入身份证和姓名
+        extractData(listFlowData, indata);
+        if(listFlowData != null && !listFlowData.isEmpty()){
+        	String flowid = null;
+            for(FlowDataEntity fde : listFlowData){
+            	indata.put(fde.getKeyName(), fde.getKeyValue());
+            	if(flowid == null)
+            		flowid = fde.getFlowId();
+            }
+            setImag(flowid, indata);
+        }
+        data.put("身份验证", indata);
+        //婚姻状况
+        indata = new LinkedHashMap<String, Object>();
+        extractData(queryFlow(id,"hyzk"), indata);
+        data.put("婚姻状态", indata);        
 
-        setImag(flowId,indata);
-        data.put("身份证", indata);
-        data.put("结婚证", indata);
-        this.download(response, data, "当前下载文件.pdf");
+        //户口簿信息
+        indata = new LinkedHashMap<String, Object>();
+        extractData(queryFlow(id,"hkbxx"), indata);
+        data.put("户口簿信息", indata);
+
+        //购房发票
+        indata = new LinkedHashMap<String, Object>();
+        extractData(queryFlow(id,"gffp"), indata);
+        data.put("购房发票", indata);
+        
+        //购房合同
+        indata = new LinkedHashMap<String, Object>();
+        extractData(queryFlow(id,"gfht"), indata);
+        data.put("购房合同", indata);
+        
+        //授权书
+        indata = new LinkedHashMap<String, Object>();
+        extractData(queryFlow(id,"sqs"), indata);
+        data.put("授权书", indata);
+        
+        //拆迁补偿
+        indata = new LinkedHashMap<String, Object>();
+        extractData(queryFlow(id,"cqbc"), indata);
+        data.put("拆迁补偿", indata);
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_hh:mm:ss");
+        this.download(response, data, simpleDateFormat.format(date)+".pdf");
         System.out.println("下载结束。。。。。");
     }
-
-//    //文件下载
-//    @RequestMapping("/dowloads")
-//    @ResponseBody
-//    public void  dowload(HttpServletResponse response,String id) throws Exception{
-//        File file = null;
-//        String filePar = null;
-//        filePar = "D:qishuidowload/";// 文件夹路径
-//        File myPath = new File( filePar );
-//        file = new File(filePar+"/"+"qishui.pdf");
-//        if (!myPath.exists()){
-//            myPath.mkdir();
-//        }
-//        Rectangle tRectangle = new Rectangle(PageSize.A4); // 页面大小 
-//        tRectangle.setBackgroundColor(BaseColor.WHITE); // 页面背景色 
-//        tRectangle.setBorder(1220);// 边框 
-//        tRectangle.setBorderColor(BaseColor.BLUE);// 边框颜色 
-//        tRectangle.setBorderWidth(244.2f);// 边框宽度 
-//        Document doc = new Document(tRectangle.rotate());// 定义文档  
-//        doc.setMargins(10, 20, 30, 40);// 页边空白 
-//        //doc = new Document(tRectangle.rotate());// 横向打印 
-//        //PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(file));// 书写器 
-//        PdfWriter writer = PdfWriter.getInstance(doc, response.getOutputStream());
-//        writer.setPdfVersion(PdfWriter.PDF_VERSION_1_2);//版本(默认1.4) 
-//        //设置PDF文档属性 
-//        doc.addTitle("契税");// 标题 
-//        Paragraph tParagraph = new Paragraph("契税", getChineseFont());
-//        tParagraph.setAlignment(Element.ALIGN_JUSTIFIED);// 对齐方式 
-//        //下载时间
-//        Date date = new Date();
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//        Paragraph xzsj = new Paragraph(simpleDateFormat.format(date), getChineseFontContent());
-//        xzsj.setAlignment(Element.ALIGN_RIGHT);// 对齐方式
-//
-//
-//
-//        ApplyRecordEntity applyRecordEntity = new ApplyRecordEntity();
-//        applyRecordEntity.setId(id);
-//        try{
-//            applyRecordEntity.queryBySelf();
-//        }catch (Exception e){
-//            System.out.println("查询用户出错！");
-//            return;
-//        }
-//        Paragraph czdx = new Paragraph(applyRecordEntity.getSprXm(), getChineseFontContent());
-//        czdx.setAlignment(Element.ALIGN_RIGHT);// 对齐方式 
-//        doc.open();// 打开文档 
-//
-//        List<FlowDataEntity> listFlowData  = queryFlow(id,"sfyz");
-//        Paragraph sfyz = new Paragraph("身份验证", getChineseFont());
-//        doc.add(sfyz);
-//        String flowId = insertData(listFlowData,doc);
-//        setImag(flowId,doc);
-//        //婚姻状况
-//        Boolean canGo = true;
-//        String hyzkString = "";
-//        List<FlowDataEntity> listHyzk  = queryFlow(id,"hyzk");
-//        if(listHyzk==null){
-//            canGo = false;
-//        }
-//        if(canGo){
-//            Paragraph hyzk = new Paragraph("婚姻状态", getChineseFont());
-//            hyzk.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
-//            doc.add(hyzk);
-//            for (FlowDataEntity forHyzk:listHyzk
-//            ) {
-//                if(forHyzk.getKeyName().equalsIgnoreCase("结婚时间")){
-//                    StringBuffer yh = new StringBuffer();
-//                    yh.append("婚姻状况：已婚");
-//                    Paragraph hyPage = new Paragraph(yh.toString(), getChineseFontContent());
-//                    doc.add(hyPage);
-//                    StringBuffer jhsh = new StringBuffer();
-//                    jhsh.append("结婚时间："+forHyzk.getKeyValue());
-//                    sfyz.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
-//                    Paragraph sfz = new Paragraph(jhsh.toString(), getChineseFontContent());
-//                    doc.add(sfz);
-//                    hyzkString = forHyzk.getFlowId();
-//                }
-//
-//            }
-//            //婚姻状况图片
-//            if(!hyzkString.equals("")){
-//                setImag(hyzkString,doc);
-//            }
-//        }else{
-//            StringBuffer yh = new StringBuffer();
-//            yh.append("婚姻状况：未婚");
-//            Paragraph hyPage = new Paragraph(yh.toString(), getChineseFontContent());
-//            doc.add(hyPage);
-//        }
-//
-//        //户口簿信息
-//        List<FlowDataEntity> hkbList  = queryFlow(id,"hkbxx");
-//        Paragraph hkbxx = new Paragraph("户口簿信息", getChineseFont());
-//        doc.add(hkbxx);
-//        String flowId1 = insertData(hkbList,doc);
-//        setImag(flowId1,doc);
-//
-//        //购房发票
-//        String flowId2 = "";
-//        List<FlowDataEntity> gffpList  = queryFlow(id,"gffp");
-//        Paragraph gffp = new Paragraph("购房发票", getChineseFont());
-//        doc.add(gffp);
-//        for (FlowDataEntity flowDataEntity:gffpList
-//        ) {
-//
-//            gffp.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
-//            StringBuffer xxdistring = new StringBuffer();
-//            if(flowDataEntity.getKeyName().equalsIgnoreCase("购买房屋的详细地址")){
-//                xxdistring.append("购买房屋的详细地址："+flowDataEntity.getKeyValue());
-//                Paragraph xxdiP = new Paragraph(xxdistring.toString(), getChineseFontContent());
-//                doc.add(xxdiP);
-//                flowId2 = flowDataEntity.getFlowId();
-//            }
-//            if(flowDataEntity.getKeyName().equalsIgnoreCase("第几套房")){
-//                xxdistring.append("第几套房："+flowDataEntity.getKeyValue());
-//                Paragraph jtfP = new Paragraph(xxdistring.toString(), getChineseFontContent());
-//                doc.add(jtfP);
-//            }
-//            if(flowDataEntity.getKeyName().equalsIgnoreCase("获取方式")){
-//                xxdistring.append("获取方式："+flowDataEntity.getKeyValue());
-//                Paragraph hqfsP = new Paragraph(xxdistring.toString(), getChineseFontContent());
-//                doc.add(hqfsP);
-//            }
-//            if(flowDataEntity.getKeyName().equalsIgnoreCase("《房屋所有权证》证号")){
-//                xxdistring.append("《房屋所有权证》证号："+flowDataEntity.getKeyValue());
-//                Paragraph zhP = new Paragraph(xxdistring.toString(), getChineseFontContent());
-//                doc.add(zhP);
-//            }
-//        }
-//        if(!flowId2.equalsIgnoreCase(""))
-//            setImag(flowId2,doc);
-//        //购房合同
-//        String flowId3 = "";
-//        Paragraph gfht = new Paragraph("购房合同", getChineseFont());
-//        gfht.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
-//        doc.add(gfht);
-//        List<FlowDataEntity> gfhtList  = queryFlow(id,"gfht");
-//        Paragraph gfhtp = new Paragraph("购房发票", getChineseFont());
-//        doc.add(gfhtp);
-//        for (FlowDataEntity flowDataEntity:gfhtList
-//        ) {
-//            if(flowDataEntity.getKeyName().equalsIgnoreCase("证件类型")){
-//                StringBuffer zjlxstring = new StringBuffer();
-//                zjlxstring.append("证件类型："+flowDataEntity.getKeyValue());
-//                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
-//                doc.add(zjlxP);
-//            }
-//            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋价格")){
-//                StringBuffer zjlxstring = new StringBuffer();
-//                zjlxstring.append("房屋价格："+flowDataEntity.getKeyValue());
-//                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
-//                doc.add(zjlxP);
-//                flowId3 = flowDataEntity.getFlowId();
-//            }
-//            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋类型")){
-//                StringBuffer zjlxstring = new StringBuffer();
-//                zjlxstring.append("房屋类型："+flowDataEntity.getKeyValue());
-//                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
-//                doc.add(zjlxP);
-//            }
-//            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋面积")){
-//                StringBuffer zjlxstring = new StringBuffer();
-//                zjlxstring.append("房屋面积："+flowDataEntity.getKeyValue());
-//                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
-//                doc.add(zjlxP);
-//            }
-//        }
-//        if(!flowId3.equalsIgnoreCase(""))
-//            setImag(flowId3,doc);
-//        //授权书
-//        Paragraph sqs = new Paragraph("授权书", getChineseFont());
-//        sqs.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
-//        //拆迁补偿
-//        Paragraph qqbc = new Paragraph("拆迁补偿", getChineseFont());
-//        qqbc.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
-//        tParagraph.setAlignment(Element.ALIGN_CENTER);// 居中
-//        tParagraph.setIndentationLeft(12);// 左缩进 
-//        tParagraph.setIndentationRight(12);// 右缩进 
-//        tParagraph.setFirstLineIndent(24);// 首行缩进 
-//        tParagraph.setLeading(20f);// 行间距 
-//        tParagraph.setSpacingBefore(5f);// 设置上空白 
-//        tParagraph.setSpacingAfter(10f);// 设置段落下空白
-//        Image img = Image.getInstance("E:\\timg.jpg");
-//        img.setAlignment(Image.MIDDLE);  //设置图片居中
-//        img.setBorder(Image.BOX);
-//        img.setBorderWidth(10);
-//        img.setBorderColor(BaseColor.WHITE);
-//        img.scaleToFit(900, 350);// 设置图片大小 
-//        doc.close();  //记得关闭document
-//        //输出文件流
-//        Map<String, Object> data = new HashMap<String, Object>();
-//        Map<String, Object> indata = new HashMap<String, Object>();
-//        indata.put("身份证", "510923187609091234");
-//        indata.put("姓名", "姓名510923187609091234");
-//        indata.put("img", new HashMap<String, Object>(){
-//            {
-//                this.put("path", "http://a2.att.hudong.com/36/48/19300001357258133412489354717.jpg");
-//                this.put("w", 300);
-//                this.put("h", 500);
-//            }
-//        });
-//        data.put("身份证", indata);
-//        indata = new HashMap<String, Object>();
-//        indata.put("婚姻状况", "510923187609091234");
-//        indata.put("结婚时间", "姓名510923187609091234");
-//        indata.put("img", new HashMap<String, Object>(){
-//            {
-//                this.put("path", "http://a4.att.hudong.com/22/59/19300001325156131228593878903.jpg");
-//                this.put("w", 300);
-//                this.put("h", 500);
-//            }
-//        });
-//        data.put("结婚证", indata);
-//        this.download(response, data, "当前下载文件.pdf");
-//        System.out.println("下载结束。。。。。");
-//    }
-    public static Font getChineseFont() {
-        BaseFont simpChinese;
-        Font ChineseFont = null;
-        try {
-            simpChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
-            ChineseFont = new Font(simpChinese, 21, Font.NORMAL, BaseColor.BLACK);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+    
+    private void extractData(List<FlowDataEntity> listFlowData, Map<String, Object> indata){
+    	if(listFlowData != null && !listFlowData.isEmpty()){
+        	String flowid = null;
+            for(FlowDataEntity fde : listFlowData){
+            	indata.put(fde.getKeyName(), fde.getKeyValue());
+            	if(flowid == null)
+            		flowid = fde.getFlowId();
+            }
+            try{
+            	setImag(flowid, indata);
+            }catch(Exception e){
+            	e.printStackTrace();
+            }
         }
-        return ChineseFont;
-
     }
+    
     public void setImag(String id,Map map) throws Exception{
         FlowFileEntity hyzkFileEntity = new FlowFileEntity();
         hyzkFileEntity.setFlowId(id);
         List<FlowFileEntity> hyzkList = hyzkFileEntity.queryListBySelf();
-        for (FlowFileEntity forHyzk :hyzkList
-        ) {
+        List<Map<String, Object>> imgs = new LinkedList<Map<String, Object>>();
+        for (FlowFileEntity forHyzk :hyzkList) {
             FlowFileEntity hyzkFile = new FlowFileEntity();
             hyzkFile.setId(forHyzk.getId());
             Image img = Image.getInstance(hyzkFile.queryBlobBySelf(FlowFileDto.FILE_CONTENT_C));
-            map.put("img",new HashMap<String, Object>(){
+            imgs.add(new HashMap<String, Object>(){
                 {
                     this.put("path", img);
                     this.put("w", 300);
@@ -456,6 +287,7 @@ public class PCLoginController  extends SetuSessionController {
                 }
             });
         }
+        map.put("img", imgs);
     }
     public String insertData(List<FlowDataEntity> hkbList,Map doc) throws Exception{
         String flowId = "";
@@ -487,6 +319,317 @@ public class PCLoginController  extends SetuSessionController {
 
         return gffpList;
     }
+    
+    //文件下载
+    @RequestMapping("/dowload_old")
+    @ResponseBody
+    public void  dowloads(HttpServletResponse response,String id) throws Exception{
+        File file = null;
+        String filePar = null;
+        filePar = "D:qishuidowload/";// 文件夹路径
+        File myPath = new File( filePar );
+        file = new File(filePar+"/"+"qishui.pdf");
+        if (!myPath.exists()){
+            myPath.mkdir();
+        }
+        Rectangle tRectangle = new Rectangle(PageSize.A4); // 页面大小 
+        tRectangle.setBackgroundColor(BaseColor.WHITE); // 页面背景色 
+        tRectangle.setBorder(1220);// 边框 
+        tRectangle.setBorderColor(BaseColor.BLUE);// 边框颜色 
+        tRectangle.setBorderWidth(244.2f);// 边框宽度 
+        Document doc = new Document(tRectangle.rotate());// 定义文档  
+        doc.setMargins(10, 20, 30, 40);// 页边空白 
+        //doc = new Document(tRectangle.rotate());// 横向打印 
+        //PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(file));// 书写器 
+        PdfWriter writer = PdfWriter.getInstance(doc, response.getOutputStream());
+        writer.setPdfVersion(PdfWriter.PDF_VERSION_1_2);//版本(默认1.4) 
+        //设置PDF文档属性 
+        doc.addTitle("契税");// 标题 
+        Paragraph tParagraph = new Paragraph("契税", getChineseFont());
+        tParagraph.setAlignment(Element.ALIGN_JUSTIFIED);// 对齐方式 
+        //下载时间
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Paragraph xzsj = new Paragraph(simpleDateFormat.format(date), getChineseFontContent());
+        xzsj.setAlignment(Element.ALIGN_RIGHT);// 对齐方式
+
+
+
+        ApplyRecordEntity applyRecordEntity = new ApplyRecordEntity();
+        applyRecordEntity.setId(id);
+        try{
+            applyRecordEntity.queryBySelf();
+        }catch (Exception e){
+            System.out.println("查询用户出错！");
+            return;
+        }
+        Paragraph czdx = new Paragraph(applyRecordEntity.getSprXm(), getChineseFontContent());
+        czdx.setAlignment(Element.ALIGN_RIGHT);// 对齐方式 
+        doc.open();// 打开文档 
+
+        List<FlowDataEntity> listFlowData  = queryFlow(id,"sfyz");
+        Paragraph sfyz = new Paragraph("身份验证", getChineseFont());
+        doc.add(sfyz);
+        String flowId = insertData(listFlowData,doc);
+        setImag(flowId,doc);
+        //婚姻状况
+        Boolean canGo = true;
+        String hyzkString = "";
+        List<FlowDataEntity> listHyzk  = queryFlow(id,"hyzk");
+            if(listHyzk==null){
+                canGo = false;
+            }
+        if(canGo){
+            Paragraph hyzk = new Paragraph("婚姻状态", getChineseFont());
+            hyzk.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
+            doc.add(hyzk);
+            for (FlowDataEntity forHyzk:listHyzk
+            ) {
+                if(forHyzk.getKeyName().equalsIgnoreCase("结婚时间")){
+                    StringBuffer yh = new StringBuffer();
+                    yh.append("婚姻状况：已婚");
+                    Paragraph hyPage = new Paragraph(yh.toString(), getChineseFontContent());
+                    doc.add(hyPage);
+                    StringBuffer jhsh = new StringBuffer();
+                    jhsh.append("结婚时间："+forHyzk.getKeyValue());
+                    sfyz.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
+                    Paragraph sfz = new Paragraph(jhsh.toString(), getChineseFontContent());
+                    doc.add(sfz);
+                    hyzkString = forHyzk.getFlowId();
+                }
+
+            }
+            //婚姻状况图片
+            if(!hyzkString.equals("")){
+                setImag(hyzkString,doc);
+            }
+        }else{
+            StringBuffer yh = new StringBuffer();
+            yh.append("婚姻状况：未婚");
+            Paragraph hyPage = new Paragraph(yh.toString(), getChineseFontContent());
+            doc.add(hyPage);
+        }
+
+        //户口簿信息
+        List<FlowDataEntity> hkbList  = queryFlow(id,"hkbxx");
+        Paragraph hkbxx = new Paragraph("户口簿信息", getChineseFont());
+        doc.add(hkbxx);
+        String flowId1 = insertData(hkbList,doc);
+        setImag(flowId1,doc);
+
+        //购房发票
+        String flowId2 = "";
+        List<FlowDataEntity> gffpList  = queryFlow(id,"gffp");
+        Paragraph gffp = new Paragraph("购房发票", getChineseFont());
+        doc.add(gffp);
+        for (FlowDataEntity flowDataEntity:gffpList
+        ) {
+
+            gffp.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
+            StringBuffer xxdistring = new StringBuffer();
+            if(flowDataEntity.getKeyName().equalsIgnoreCase("购买房屋的详细地址")){
+                xxdistring.append("购买房屋的详细地址："+flowDataEntity.getKeyValue());
+                Paragraph xxdiP = new Paragraph(xxdistring.toString(), getChineseFontContent());
+                doc.add(xxdiP);
+                flowId2 = flowDataEntity.getFlowId();
+            }
+            if(flowDataEntity.getKeyName().equalsIgnoreCase("第几套房")){
+                xxdistring.append("第几套房："+flowDataEntity.getKeyValue());
+                Paragraph jtfP = new Paragraph(xxdistring.toString(), getChineseFontContent());
+                doc.add(jtfP);
+            }
+            if(flowDataEntity.getKeyName().equalsIgnoreCase("获取方式")){
+                xxdistring.append("获取方式："+flowDataEntity.getKeyValue());
+                Paragraph hqfsP = new Paragraph(xxdistring.toString(), getChineseFontContent());
+                doc.add(hqfsP);
+            }
+            if(flowDataEntity.getKeyName().equalsIgnoreCase("《房屋所有权证》证号")){
+                xxdistring.append("《房屋所有权证》证号："+flowDataEntity.getKeyValue());
+                Paragraph zhP = new Paragraph(xxdistring.toString(), getChineseFontContent());
+                doc.add(zhP);
+            }
+        }
+        if(!flowId2.equalsIgnoreCase(""))
+            setImag(flowId2,doc);
+        //购房合同
+        String flowId3 = "";
+        Paragraph gfht = new Paragraph("购房合同", getChineseFont());
+        gfht.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
+        doc.add(gfht);
+        List<FlowDataEntity> gfhtList  = queryFlow(id,"gfht");
+        Paragraph gfhtp = new Paragraph("购房发票", getChineseFont());
+        doc.add(gfhtp);
+        for (FlowDataEntity flowDataEntity:gfhtList
+        ) {
+            if(flowDataEntity.getKeyName().equalsIgnoreCase("证件类型")){
+                StringBuffer zjlxstring = new StringBuffer();
+                zjlxstring.append("证件类型："+flowDataEntity.getKeyValue());
+                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
+                doc.add(zjlxP);
+            }
+            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋价格")){
+                StringBuffer zjlxstring = new StringBuffer();
+                zjlxstring.append("房屋价格："+flowDataEntity.getKeyValue());
+                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
+                doc.add(zjlxP);
+                flowId3 = flowDataEntity.getFlowId();
+            }
+            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋类型")){
+                StringBuffer zjlxstring = new StringBuffer();
+                zjlxstring.append("房屋类型："+flowDataEntity.getKeyValue());
+                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
+                doc.add(zjlxP);
+            }
+            if(flowDataEntity.getKeyName().equalsIgnoreCase("房屋面积")){
+                StringBuffer zjlxstring = new StringBuffer();
+                zjlxstring.append("房屋面积："+flowDataEntity.getKeyValue());
+                Paragraph zjlxP = new Paragraph(zjlxstring.toString(), getChineseFontContent());
+                doc.add(zjlxP);
+            }
+        }
+        if(!flowId3.equalsIgnoreCase(""))
+            setImag(flowId3,doc);
+        //授权书
+        Paragraph sqs = new Paragraph("授权书", getChineseFont());
+        sqs.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
+        //拆迁补偿
+        Paragraph qqbc = new Paragraph("拆迁补偿", getChineseFont());
+        qqbc.setAlignment(Element.ALIGN_LEFT);// 对齐方式 
+        tParagraph.setAlignment(Element.ALIGN_CENTER);// 居中
+        tParagraph.setIndentationLeft(12);// 左缩进 
+        tParagraph.setIndentationRight(12);// 右缩进 
+        tParagraph.setFirstLineIndent(24);// 首行缩进 
+        tParagraph.setLeading(20f);// 行间距 
+        tParagraph.setSpacingBefore(5f);// 设置上空白 
+        tParagraph.setSpacingAfter(10f);// 设置段落下空白
+        Image img = Image.getInstance("E:\\timg.jpg");
+//        Image img = Image.getInstance(flowFileEntity.getFileContent());
+        img.setAlignment(Image.MIDDLE);  //设置图片居中
+        img.setBorder(Image.BOX);
+        img.setBorderWidth(10);
+        img.setBorderColor(BaseColor.WHITE);
+        img.scaleToFit(900, 350);// 设置图片大小 
+
+//        ///  doc.add(tRectangle);
+//        doc.add(tParagraph); //添加段落
+//        doc.add(xzsj);
+//        doc.add(czdx);
+//
+//        //婚姻状况
+//        doc.add(hyzk);
+//        doc.add(hyzkP);
+//        doc.add(jhshsP);
+//        //户口簿信息
+//        doc.add(hkbxx);
+//        doc.add(hkbxmP);
+//        doc.add(hkbsfzP);
+//        //购房发票
+//        doc.add(gffp);
+//        doc.add(xxdiP);
+//        doc.add(djtfP);
+//        doc.add(hqfsP);
+//        doc.add(fcsyzzhP);
+//        //购房合同
+//        doc.add(gfht);
+//        doc.add(zjlxP);
+//        doc.add(fwjgP);
+//        doc.add(fwlxP);
+//        doc.add(fwmjP);
+//        //授权书
+//        doc.add(sqs);
+//        //拆迁补偿
+//        doc.add(qqbc);
+        doc.close();  //记得关闭document
+       //输出文件流
+
+//        OutputStream os = null;
+//        InputStream is= null;
+//        try {
+//            // 取得输出流
+//            os = response.getOutputStream();
+//            // 清空输出流
+//            response.reset();
+////            response.setHeader("content-type", "application/octet-stream");
+//            response.setContentType("application/octet-stream");
+//            response.setHeader("Content-Disposition", "attachment;filename=" + "1.pdf");
+//            //读取流
+//            File fileTest = new File("D:qishuidowload/qishui.pdf");
+//            byte[] buffer = new byte[1024];
+//            BufferedInputStream bis = null;
+//            is = new FileInputStream(file);
+//            bis = new BufferedInputStream(is);
+//            while(bis.read(buffer) != -1){
+//                os.write(buffer);
+//            }
+//            IOUtils.copy(is, response.getOutputStream());
+//            response.getOutputStream().flush();
+//        } catch (IOException e) {
+//        	e.printStackTrace();
+//        }
+//        //文件的关闭放在finally中
+//        finally
+//        {
+//            try {
+//                if (is != null) {
+//                    is.close();
+//                }
+//            } catch (IOException e) {
+//            }
+//            try {
+//                if (os != null) {
+//                    os.close();
+//                }
+//            } catch (IOException e) {
+//            }
+//        }
+    }
+    public static Font getChineseFont() {
+        BaseFont simpChinese;
+        Font ChineseFont = null;
+        try {
+            simpChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+            ChineseFont = new Font(simpChinese, 21, Font.NORMAL, BaseColor.BLACK);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ChineseFont;
+
+    }
+    public void setImag(String id,Document doc) throws Exception{
+        FlowFileEntity hyzkFileEntity = new FlowFileEntity();
+        hyzkFileEntity.setFlowId(id);
+        List<FlowFileEntity> hyzkList = hyzkFileEntity.queryListBySelf();
+        for (FlowFileEntity forHyzk :hyzkList
+        ) {
+            FlowFileEntity hyzkFile = new FlowFileEntity();
+            hyzkFile.setId(forHyzk.getId());
+            Image img = Image.getInstance(hyzkFile.queryBlobBySelf(FlowFileDto.FILE_CONTENT_C));
+            doc.add(img);
+        }
+    }
+    public String insertData(List<FlowDataEntity> hkbList,Document doc) throws Exception{
+        String flowId = "";
+        for (FlowDataEntity flowDataEntity1:hkbList
+        ) {
+            if(flowDataEntity1.getKeyName().equalsIgnoreCase("真实姓名")){
+                StringBuffer xmstring = new StringBuffer();
+                xmstring.append("姓名："+flowDataEntity1.getKeyValue());
+                Paragraph xm = new Paragraph(xmstring.toString(), getChineseFontContent());
+                doc.add(xm);
+                flowId = flowDataEntity1.getFlowId();
+            }else{
+                StringBuffer sfzstring = new StringBuffer();
+                sfzstring.append("身份证："+flowDataEntity1.getKeyValue());
+                //身份验证
+                Paragraph sfz = new Paragraph(sfzstring.toString(), getChineseFontContent());
+                doc.add(sfz);
+            }
+
+        }
+        return flowId;
+    }
     //正文设置字体
     public static Font getChineseFontContent() {
         BaseFont simpChinese;
@@ -501,85 +644,112 @@ public class PCLoginController  extends SetuSessionController {
         }
         return ChineseFont;
     }
-
+    
     /**
-     *
-     * @param data format:{"身份证":{"身份证"："111111","姓名"："身份证","img"：{"path":"abc.jpg","w":123,"h":123}}}
-     * @param out
-     */
-    @SuppressWarnings("unchecked")
-    public void constructPDF(Map<String, Object> data, OutputStream out){
-        if(data == null || data.isEmpty() || out == null)
-            return;
-        Document doc = new Document();
-        try{
-            PdfWriter.getInstance(doc, out).setStrictImageSequence(true);
-            doc.open();
-            BaseFont bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);
-            Font chinese = new Font(bf, 12, Font.NORMAL);
-            for(Map.Entry<String, Object> entry:data.entrySet()){
-                Paragraph title = new Paragraph(entry.getKey(), chinese);
-                doc.add(title);
-                Object value = entry.getValue();
-                if(value == null)
-                    doc.add(new Paragraph("无"));
-                else{
-                    if(value instanceof Map){
-                        Map<String, Object> in_map = (Map<String, Object>)value;
-                        for(Map.Entry<String, Object> entry_in_map:in_map.entrySet()){
-                            if(entry_in_map.getKey().
-                                    equalsIgnoreCase("img")){
-                                Map<String, Object> img = (Map<String, Object>)entry_in_map.getValue();
-                                if(img.containsKey("path")){
-                                    Object path = img.get("path");
-                                    if(path != null ){
-                                        Image c_img = (Image) img.get("path");
-                                        float w = c_img.getWidth();
-                                        float h = c_img.getHeight();
-                                        if(img.containsKey("w")){
-                                            Object u_w = img.get("w");
-                                            if(u_w != null)
-                                                w = (Integer)u_w;
-                                        }
-                                        if(img.containsKey("h")){
-                                            Object u_h = img.get("h");
-                                            if(u_h != null)
-                                                h = (Integer)u_h;
-                                        }
-                                        c_img.scaleAbsolute(w, h);
-                                        doc.add(c_img);
-                                    }
-                                }
-                            }else{
-                                String text = entry_in_map.getKey()+"："+entry_in_map.getValue();
-                                doc.add(new Paragraph(text, chinese));
-                            }
-                        }
-                    }
-                }
-            }
-            doc.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    /**
-     * 文件下载
-     * @param response
-     * @param data
-     * @param fileName
-     */
-    public void download(HttpServletResponse response, Map<String, Object> data, String fileName){
-        try{
-            response.setContentType("application/x-msdownload");
-            response.setHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes("GBK"), "ISO-8859-1"));
-            ServletOutputStream out = response.getOutputStream();
-            constructPDF(data, out);
-            out.flush();
-            out.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
+	 * 
+	 * @param data format:{"身份证":{"身份证"："111111","姓名"："身份证","img"：{"path":"abc.jpg","w":123,"h":123}}}
+	 * or data format:{"身份证":{"身份证"："111111","姓名"："身份证","img"：[{"path":"abc.jpg","w":123,"h":123}]}}
+	 * @param out
+	 */
+	@SuppressWarnings("unchecked")
+	public void constructPDF(Map<String, Object> data, OutputStream out){
+		if(data == null || data.isEmpty() || out == null)
+			return;
+		Document doc = new Document();
+		try{
+			PdfWriter.getInstance(doc, out).setStrictImageSequence(true); 
+			doc.open();
+			BaseFont bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);
+			Font chinese = new Font(bf, 12, Font.NORMAL);
+			for(Map.Entry<String, Object> entry:data.entrySet()){
+				Paragraph title = new Paragraph(entry.getKey(), chinese);
+				doc.add(title);
+				Object value = entry.getValue();
+				if(value == null)
+					doc.add(new Paragraph("无"));
+				else{
+					if(value instanceof Map){
+						Map<String, Object> in_map = (Map<String, Object>)value;
+						for(Map.Entry<String, Object> entry_in_map:in_map.entrySet()){
+							if(entry_in_map.getKey().equalsIgnoreCase("img")){
+								Object imgvalue = entry_in_map.getValue();
+								if(imgvalue instanceof List){
+									List<Map<String, Object>> list = (List<Map<String, Object>>)imgvalue;
+									for(Map<String, Object> img : list)
+										if(img.containsKey("path")){
+											Object path = img.get("path");
+											if(path != null && !path.toString().trim().equals("")){
+												Image c_img = (Image)path;
+												float w = c_img.getWidth();
+												float h = c_img.getHeight();
+												if(img.containsKey("w")){
+													Object u_w = img.get("w");
+													if(u_w != null)
+														w = (Integer)u_w;
+												}
+												if(img.containsKey("h")){
+													Object u_h = img.get("h");
+													if(u_h != null)
+														h = (Integer)u_h;
+												}
+												c_img.scaleAbsolute(w, h);
+												doc.add(c_img);
+											}
+										}
+								}else{
+									Map<String, Object> img = (Map<String, Object>)imgvalue;
+									if(img.containsKey("path")){
+										Object path = img.get("path");
+										if(path != null && !path.toString().trim().equals("")){
+											//Image c_img = Image.getInstance(path.toString()); 
+											Image c_img = (Image)path;
+											float w = c_img.getWidth();
+											float h = c_img.getHeight();
+											if(img.containsKey("w")){
+												Object u_w = img.get("w");
+												if(u_w != null)
+													w = (Integer)u_w;
+											}
+											if(img.containsKey("h")){
+												Object u_h = img.get("h");
+												if(u_h != null)
+													h = (Integer)u_h;
+											}
+											c_img.scaleAbsolute(w, h);
+											doc.add(c_img);
+										}
+									}
+								}
+							}else{
+								String text = entry_in_map.getKey()+"："+entry_in_map.getValue();
+								doc.add(new Paragraph(text, chinese));
+							}
+						}
+					}
+				}
+			}
+			doc.close(); 
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 文件下载
+	 * @param response
+	 * @param data
+	 * @param fileName
+	 */
+	public void download(HttpServletResponse response, Map<String, Object> data, String fileName){	
+		try{
+			response.setContentType("application/x-msdownload");
+			response.setHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes("GBK"), "ISO-8859-1"));
+			ServletOutputStream out = response.getOutputStream();
+			constructPDF(data, out);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 
 }
